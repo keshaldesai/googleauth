@@ -8,19 +8,16 @@ Requires config folder with three config files setup in this way:
 
 config/
 
-//google oauth credentials
 authConfig.json: {
 	"clientID": "",
 	"clientSecret": "",
 	"callbackURL": ""
 }
 
-//jwt secret for encoding/decoding
 jwtConfig.json: {
 	"secret": ""
 }
 
-//mongoDB user information
 mongoConfig.json {
 	"user": "",
 	"pass": ""
