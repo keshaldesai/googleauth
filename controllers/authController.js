@@ -2,6 +2,8 @@ const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const secret = require('../config/jwtConfig.json').secret;
 const User = require('../models/user');
+const verifyUser = require('../helpers/verifyUser');
+const errorHandler = require('../helpers/errorHandler');
 
 module.exports = function (app) {
 
@@ -14,51 +16,31 @@ module.exports = function (app) {
 		passport.authenticate('google', { failureRedirect: 'http://localhost:3000' }),
 		function (req, res) {
 			const token = jwt.sign({ token: req.user.token }, secret);
-			res.redirect('http://localhost:3000?token=' + token);
+			return res.redirect('http://localhost:3000?token=' + token);
 		});
 
 	//verifies client by token, returns user info to client app
 	app.post('/api/auth/in', function (req, res) {
-		if (req.body.token) {
-			jwt.verify(req.body.token, secret, null, function (err, decoded) {
-				if (err) {
-					console.error(err);
-					return res.status(401).end();
-				} else {
-					User.findOne({ token: decoded.token }, function (err, user) {
-						if (err) {
-							console.error(err);
-							return res.status(401).end();
-						} else {
-							return res.json({
-								id: user.googleId,
-								name: user.name
-							});
-						}
-					});
-				}
+		const cb = (user) => {
+			return res.json({
+				userId: user.googleId,
+				name: user.name
 			});
-		} else {
-			return res.status(401).end();
 		}
+		verifyUser(req.body.token, res, cb);
 	});
 
 	//handles server side logout (token removal from DB)
 	app.post('/api/auth/out', function (req, res) {
-		if (req.body.token) {
-			jwt.verify(req.body.token, secret, null, function (err, decoded) {
+		const cb = (user) => {
+			user.token = '';
+			user.save((err, user) => {
 				if (err) {
-					console.error(err);
-					return res.status(401).end();
-				} else {
-					User.findOneAndUpdate({ token: decoded.token }, { token: '' }, function (err, user) {
-						if (err) console.error(err);
-						return res.end();
-					});
+					return errorHandler(err, res, 400);
 				}
+				return res.end();
 			});
-		} else {
-			return res.status(401).end();
-		}
+		};
+		verifyUser(req.body.token, res, cb);
 	});
 }
