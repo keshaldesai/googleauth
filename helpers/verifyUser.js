@@ -4,7 +4,7 @@ const secret = require("../config/jwtConfig.json").secret;
 const User = require("../models/user");
 const errorHandler = require("./errorHandler");
 
-module.exports = function(token, res, cb) {
+module.exports = (token, res, cb) => {
   //returns early if not token, response, or callback provided
   if (!token || !res || !cb) {
     return res.status(400).end();

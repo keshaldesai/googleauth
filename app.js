@@ -13,7 +13,7 @@ const mongoose = require("mongoose");
 
 //connect to MongoDB
 mongoose.connect(
-  `mongodb://${mongoConfig.user}:${mongoConfig.pass}@ds113660.mlab.com:13660/nightlifefcc`
+  `mongodb://${mongoConfig.user}:${mongoConfig.pass}@ds135592.mlab.com:35592/pinit`
 );
 
 //use bodyparser, cors, passport
