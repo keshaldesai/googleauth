@@ -1,3 +1,3 @@
-module.exports = function (app) {
-	//API route handlers
-}
+module.exports = function(app) {
+  //API route handlers
+};

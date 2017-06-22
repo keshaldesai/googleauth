@@ -1,10 +1,10 @@
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const passport = require('passport');
+const bodyParser = require("body-parser");
+const cors = require("cors");
+const passport = require("passport");
 
-module.exports = function (app) {
-	app.use(cors());
-	app.use(bodyParser.json());
-	app.use(bodyParser.urlencoded());
-	app.use(passport.initialize());
-}
+module.exports = function(app) {
+  app.use(cors());
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded());
+  app.use(passport.initialize());
+};

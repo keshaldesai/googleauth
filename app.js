@@ -1,18 +1,20 @@
-const express = require('express');
+const express = require("express");
 const app = express();
 
-const authController = require('./controllers/authController');
-const passportController = require('./controllers/passportController');
-const apiControlller = require('./controllers/apiController');
-const setupControlller = require('./controllers/setupController');
+const authController = require("./controllers/authController");
+const passportController = require("./controllers/passportController");
+const apiControlller = require("./controllers/apiController");
+const setupControlller = require("./controllers/setupController");
 
-const passport = require('passport');
+const passport = require("passport");
 
-const mongoConfig = require('./config/mongoConfig.json');
-const mongoose = require('mongoose');
+const mongoConfig = require("./config/mongoConfig.json");
+const mongoose = require("mongoose");
 
 //connect to MongoDB
-mongoose.connect(`mongodb://${mongoConfig.user}:${mongoConfig.pass}@ds113660.mlab.com:13660/nightlifefcc`);
+mongoose.connect(
+  `mongodb://${mongoConfig.user}:${mongoConfig.pass}@ds113660.mlab.com:13660/nightlifefcc`
+);
 
 //use bodyparser, cors, passport
 setupControlller(app);
@@ -26,4 +28,4 @@ authController(app);
 //general API handler
 apiControlller(app);
 
-app.listen(8000, console.log('Listening on port 8000'));
+app.listen(8000, console.log("Listening on port 8000"));
